@@ -25,6 +25,9 @@
         key: "yz83-er31-he86-ab42"  
     },  
     control = new pca.Address(fields, options);
+    control.listen('populate', function(address){
+    	console.log(address.Label);
+    })
 </script>
 </body>	
 </body>
