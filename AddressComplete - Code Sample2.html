@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<link rel="stylesheet" type="text/css" href="http://ws1.postescanada-canadapost.ca/css/addresscomplete-2.30.min.css?key=PF13-BR77-BK97-AD39" /><script type="text/javascript" src="http://ws1.postescanada-canadapost.ca/js/addresscomplete-2.30.min.js?key=PF13-BR77-BK97-AD39"></script>
+<link rel="stylesheet" type="text/css" href="http://ws1.postescanada-canadapost.ca/css/addresscomplete-2.30.min.css?key=fb76-ar53-hh32-fx67" /><script type="text/javascript" src="http://ws1.postescanada-canadapost.ca/js/addresscomplete-2.30.min.js?key=fb76-ar53-hh32-fx67"></script>
 <div class="input-line">  
     <label for="street-address">Address</label>  
     <input id="street-address" type="text" placeholder="Street address" autofocus /> 
@@ -33,7 +33,12 @@
     <label for="country"></label>  
     <input id="country" type="text" placeholder="Country" /> 
 </div>  
+<div class="input-line">  
+    <label for="label"></label>  
+    <input id="label" type="text" placeholder="Label" /> 
+</div> 
 <script type="text/javascript">  
+    //Keep in mind none of these matter if you're using an Integration Key and not an API key
     var fields = [   
         { element: "search", field: "", mode: pca.fieldMode.SEARCH }, 
  
@@ -42,10 +47,11 @@
         { element: "city", field: "City", mode: pca.fieldMode.POPULATE },   
         { element: "state", field: "ProvinceName", mode: pca.fieldMode.POPULATE },   
         { element: "postcode", field: "PostalCode" },   
-        { element: "country", field: "CountryName", mode: pca.fieldMode.COUNTRY } 
+        { element: "country", field: "CountryName", mode: pca.fieldMode.COUNTRY },
+        { element: "label", field: "Label", mode: pca.fieldMode.POPULATE },   
     ],  
     options = {   
-        key: "PF13-BR77-BK97-AD39"  
+        key: "fb76-ar53-hh32-fx67"  
     },  
     control = new pca.Address(fields, options); 
 </script>
