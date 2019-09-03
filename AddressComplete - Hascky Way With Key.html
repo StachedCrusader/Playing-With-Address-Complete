@@ -1,0 +1,213 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+	<link rel="stylesheet" type="text/css" href="addresscomplete-2.30.min.css"/>
+	<script type="text/javascript" src="addressComplete.js">
+	</script>
+<h1>AddressComplete/Interactive/Find/v2.10</h1>
+<p>Find addresses matching the search term.</p>
+<h2>Form</h2>
+<div id="pnlForm"></div>
+<p><input type="button" value="Execute" onclick="Javascript: m_objTestController.InvokeForm();"></p>
+<h2>Results</h2>
+<div id="pnlResults"></div><div class="row">
+                            <label>Address Lookup</label>
+                            <input type="text" name="lookup1" id="lookup1" placeholder="Start typing your address..." autocomplete="off">
+                        </div>
+<script language="javascript" type="text/javascript">
+var url = 'http://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Find/v2.10/json3.ws';
+var params = '';
+    params += "&Key=" + "PW19-GF38-JT12-CJ13";
+    params += "&SearchTerm=" + "233 Lawerence Ave N4M5F3 5A";
+    params += "&SearchFor=" + "Everything";
+    params += "&Country=" + "CAN";
+    params += "&LanguagePreference=" + "en";
+var http = new XMLHttpRequest();
+http.open('POST', url, true);
+http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+http.onreadystatechange = function() {
+  if(http.readyState == 4 && http.status == 200) {
+      var response = JSON.parse(http.responseText);
+      // Test for an error
+      if (response.Items.length == 1 && typeof(response.Items[0].Error) != "undefined") {
+        // Show the error message
+        alert(response.Items[0].Description);
+      }
+      else {
+        // Check if there were any items found
+        if (response.Items.length == 0)
+            alert("Sorry, there were no results");
+        else {
+            // PUT YOUR CODE HERE
+            //FYI: The output is an array of key value pairs (e.g. response.Items[0].Id), the keys being:
+            //Id
+            //Text
+            //Highlight
+            //Cursor
+            //Description
+            //Next
+        }
+    }
+  }
+}
+http.send(params);
+</script>
+<script language="javascript" type="text/javascript">
+   var m_objTestController=null;
+   m_objTestController = new AddressComplete();
+   m_objTestController.RenderForm(document.getElementById('pnlForm'), '', true, true);
+   m_objTestController.SetDefaults();
+   m_objTestController.OnError = function() { document.getElementById('pnlResults').className='error'; m_objTestController.RenderError(document.getElementById('pnlResults')) };
+   m_objTestController.OnResult = function() { document.getElementById('pnlResults').className=''; m_objTestController.RenderTable(document.getElementById('pnlResults'), '') };
+</script>
+<script language="javascript" type="text/javascript">
+pca.AddressComplete = function () {
+        /** @lends pca.AddressComplete.prototype */
+        /** @lends addressComplete.prototype */
+        var addresscomplete = new pca.Eventable(this);
+        
+        /** The list of address controls.
+        * @type {Array.<pca.Address>} */
+        addresscomplete.controls = [];
+        /** Customer field bindings.
+        * @type {Array.<pca.AddressComplete.Bindings>} */
+        addresscomplete.bindings = [{ fields: [{ element: "lookup2", field: "{Label}", mode: 1 }, { element: "address2", field: "{Label}", mode: 2 }, { element: "company2", field: "{Company}", mode: 6 }, { element: "line12", field: "{Line1}", mode: 2 }, { element: "line22", field: "{Line2}", mode: 2 }, { element: "city2", field: "{City}", mode: 2 }, { element: "province2", field: "{ProvinceName}", mode: 2 }, { element: "postalcode2", field: "{PostalCode}", mode: 2 }], options: { key: "BW19-UD53-FG39-RP46", "International_BoundCountry": ""}}, { fields: [{ element: "line13", field: "{Line1}", mode: 3 }, { element: "line23", field: "{Line2}", mode: 2 }, { element: "city3", field: "{City}", mode: 2 }, { element: "province3", field: "{ProvinceName}", mode: 2 }, { element: "postalcode3", field: "{PostalCode}", mode: 2 }], options: { key: "KR49-CB93-MM57-ZW92", "International_BoundCountry": ""}}, { fields: [{ element: "company", field: "{Company}", mode: 6 }, { element: "line1", field: "{Line1}", mode: 2 }, { element: "line2", field: "{Line2}", mode: 2 }, { element: "city", field: "{City}", mode: 2 }, { element: "province", field: "{ProvinceName}", mode: 2 }, { element: "postalcode", field: "{PostalCode}", mode: 2 }, { element: "lookup1", field: "{AddressLabel}", mode: 1 }], options: { key: "TR28-MH11-UD79-BR91", "International_BoundCountry": ""}}];
+      
+        //add options from account and set defaults
+        function refactorOptions(options) {
+            options = options || {};
+            options.countries = options.countries || {};
+            
+            if (options.AddressCompleteCountryByIP) options.setCountryByIP = !!options.AddressCompleteCountryByIP;
+            if (options.AddressCompleteDefaultLanguage) options.culture = options.AddressCompleteDefaultLanguage;
+            if (options.AddressCompleteDefaultCountry) options.countries.defaultCode = options.AddressCompleteDefaultCountry;
+            if (options.AddressCompleteCountryList) options.countries.codesList = options.AddressCompleteCountryList;
+
+            //set defaults
+            options.setCursor = true;
+            options.prompt = true;
+            options.promptDelay = 0;
+            options.manualEntry = true;
+
+            //allow overriding of options
+            addresscomplete.fire("options", options);
+
+            return options;
+        }
+        
+        //support v1 callback functions
+        function bindClassicEvents(control) {
+            function controlLoaded() {
+                if (typeof(AddressCompleteLoaded) != 'undefined') AddressCompleteLoaded(control);
+            }
+                
+            control.listen("load", controlLoaded);
+                
+            if (control.loaded) controlLoaded();
+                
+            control.listen("populate", function(address, variations) {
+                if (typeof(AddressCompleteCallback) != 'undefined') AddressCompleteCallback(control, address, variations);
+                addresscomplete.fire("populate", control, address, variations);
+
+                //remove the control for Flex Delivery addresses
+                if (address.POBoxNumber == "99900")
+                    control.destroy();
+            });
+                
+            control.listen("error", function(error) {
+                if (typeof(AddressCompleteError) != 'undefined') AddressCompleteError(control, error);
+                addresscomplete.fire("error", control, error);
+            });            
+        }
+        
+        /** Initialises controls based on the bindings 
+        * @fires options
+        * @fires load
+        * @fires ready
+        */
+        addresscomplete.load =  function() {
+            addresscomplete.destroy();
+            
+            for (var i = 0; i < addresscomplete.bindings.length; i++) {
+                var control = new pca.Address(addresscomplete.bindings[i].fields, refactorOptions(addresscomplete.bindings[i].options))
+                
+                bindClassicEvents(control);
+
+                addresscomplete.controls.push(control);
+                addresscomplete.fire("load", control);
+            }
+
+            addresscomplete.fire("ready");
+        }
+        
+        /** Applies a delegate function to all controls.
+        * @param {pca.AddressComplete~controlDelegate} delegate - The delegate function to handle each control. */
+        addresscomplete.all = function(delegate) {
+            for (var i = 0; i < addresscomplete.controls.length; i++)
+                delegate(addresscomplete.controls[i]);
+            
+            /** Delegate function to handle a control.
+            * @callback pca.AddressComplete~controlDelegate
+            * @param {pca.Address} control */
+        }
+
+        /** Sets the culture of all controls. 
+        * @param {string} culture - The culture code to set. */
+        addresscomplete.setCulture = function(culture) {
+            addresscomplete.all(function(c) { c.setCulture(culture); });
+        }
+        
+        /** Sets the country of all controls. 
+        * @param {string} country - The country name or code to change to. */
+        addresscomplete.setCountry = function(country) {
+            addresscomplete.all(function(c) { c.setCountry(country); });
+        }
+        
+        /** Sets the width of all controls.
+        * @param {number|string} width - The width in pixels for the control. */
+        addresscomplete.setWidth = function(width) {
+            addresscomplete.all(function(c) { c.setWidth(width); });
+        }
+        
+        /** Sets the height of all controls.
+        * @param {number|string} height - The height in pixels for the control. */
+        addresscomplete.setHeight = function(height) {
+            addresscomplete.all(function(c) { c.setHeight(height); });
+        }
+        
+        /** Enables all controls. */
+        addresscomplete.enable = function() {
+            addresscomplete.all(function(c) { c.enable(); });
+        }
+        
+        /** Disables all controls. */
+        addresscomplete.disable = function() {
+            addresscomplete.all(function(c) { c.disable(); });
+        }
+        
+        /** Destroys all controls. */
+        addresscomplete.destroy = function() {
+            addresscomplete.all(function(c) { c.destroy(); });
+            addresscomplete.controls = [];
+        }
+        
+        //Initialise Address Complete.
+        pca.ready(addresscomplete.load);
+    }
+
+
+    /** @namespace addressComplete */
+    window.addressComplete = pca.addressComplete = new pca.AddressComplete();
+</script>
+</body>	
+</body>
+</html>

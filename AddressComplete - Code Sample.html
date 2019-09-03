@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+</head>
+
+<body>
+<link rel="stylesheet" type="text/css" href="http://ws1.postescanada-canadapost.ca/css/addresscomplete-2.30.min.css?key=fb76-ar53-hh32-fx67" /><script type="text/javascript" src="http://ws1.postescanada-canadapost.ca/js/addresscomplete-2.30.min.js?key=fb76-ar53-hh32-fx67"></script>
+<div class="input-line">  
+    <label for="street-address">Address</label>  
+    <input id="street-address" type="text" placeholder="Street address" autofocus /> 
+</div> 
+<div class="input-line">  
+    <label for="street-address2"></label>  
+    <input id="street-address2" type="text" placeholder="" /> 
+</div> 
+<div class="input-line">  
+    <label for="city"></label>  
+    <input id="city" type="text" placeholder="City" /> 
+</div> 
+<div class="input-line">  
+    <label for="state"></label>  
+    <input id="state" type="text" placeholder="State/Province" /> 
+</div> 
+<div class="input-line">  
+    <label for="postcode"></label>  
+    <input id="postcode" type="text" placeholder="Zip/Postcode" /> 
+</div> 
+<div class="input-line">  
+    <label for="country"></label>  
+    <input id="country" type="text" placeholder="Country" /> 
+</div>  
+<script type="text/javascript">  
+    var fields = [   
+        { element: "search", field: "", mode: pca.fieldMode.SEARCH }, 
+ 
+        { element: "street-address", field: "Line1", mode: pca.fieldMode.POPULATE },   
+        { element: "street-address2", field: "Line2", mode: pca.fieldMode.POPULATE },   
+        { element: "city", field: "City", mode: pca.fieldMode.POPULATE },   
+        { element: "state", field: "ProvinceName", mode: pca.fieldMode.POPULATE },   
+        { element: "postcode", field: "PostalCode" },   
+        { element: "country", field: "CountryName", mode: pca.fieldMode.COUNTRY } 
+    ],  
+    options = {   
+        key: "fb76-ar53-hh32-fx67"  
+    },  
+    control = new pca.Address(fields, options); 
+</script>
+</body>	
+</body>
+</html>

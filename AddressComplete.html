@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+	<!--PW19-GF38-JT12-CJ13-->
+	<link rel="stylesheet" type="text/css" href="https://ws1.postescanada-canadapost.cs/css/addresscomplete-2.00.min.css?key=fb76-ar53-hh32-fx67"/>
+	<script type="text/javascript" src="http://ws1.postescanada-canadapost.ca/js/addresscomplete-2.10.min.js?key=fb76-ar53-hh32-fx67">
+	</script>
+	<body>
+<h1>AddressComplete/Interactive/Find/v2.10</h1>
+<p>Find addresses matching the search term.</p>
+<h2>Form</h2>
+<div id="pnlForm"></div>
+<p><input type="button" value="Execute" onclick="Javascript: m_objTestController.InvokeForm();"></p>
+<h2>Results</h2>
+<div id="pnlResults"></div>
+<script language="javascript" type="text/javascript">
+   var m_objTestController=null;
+   m_objTestController = new AddressComplete();
+   m_objTestController.RenderForm(document.getElementById('pnlForm'), '', true, true);
+   m_objTestController.SetDefaults();
+   m_objTestController.OnError = function() { document.getElementById('pnlResults').className='error'; m_objTestController.RenderError(document.getElementById('pnlResults')) };
+   m_objTestController.OnResult = function() { document.getElementById('pnlResults').className=''; m_objTestController.RenderTable(document.getElementById('pnlResults'), '') };
+</script>
+
+
+</body>	
+</body>
+</html>
